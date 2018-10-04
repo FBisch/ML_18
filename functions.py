@@ -4,6 +4,22 @@ def compute_loss(y, tx, w):
     e = y - np.matmul(tx, w)
     return np.sum(e * e)/ (2 * N)
 
+def sigmoid(x):
+    return 1/ (1+np.exp(-x))
+
+def grad_logistic(y, x, w):
+    z = sigmoid(x.dot(w))
+    y=y.reshape(z.shape)
+    return x.T.dot(z-y)/x.shape[0]
+
+
+def compute_logi_loss(y, tx, w):
+    y_t = sigmoid(tx.dot(w))
+    N= len(y)
+    loss1 = y.T.dot(np.log(y_t))
+    loss2 = (1-y).T.dot(np.log(1-y_t))
+    return -1/N*(loss1+loss2)
+
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     N= tx.shape[0]
@@ -14,7 +30,7 @@ def leasts_squares(y, tx):
     X2 = np.matmul(np.transpose(tx), tx)
     X2_inv = np.linalg.inv(X2)
     W = np.matmul(X2_inv, np.transpose(tx))
-    # y_p = W.dot(y)
+    W = W.dot(y)
     loss = compute_loss(y, tx, W)
     return W, loss
 
