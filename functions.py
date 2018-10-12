@@ -27,14 +27,14 @@ def compute_logi_loss(y, tx, w):
     y_t = sigmoid(tx.dot(w))
     N= len(y)
     loss1 = y.T.dot(np.log(y_t))
-    loss2 = (1-y).T.dot(np.log(1-y_t))
+    loss2 = (1- y).T.dot(np.log(1-y_t))
     return -1/N*(loss1+loss2)
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     N= tx.shape[0]
     e = y - np.matmul(tx, w)
-    return  -1 * np.dot(tx.T, e) /N 
+    return  -1 * np.dot(tx.T, e) /N
 
 def leasts_squares(y, tx):
     X2 = np.matmul(np.transpose(tx), tx)
@@ -74,5 +74,5 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
 
         # print("Gradient Descent({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
         #       bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))
-    loss = compute_loss(y, tx, w)    
+    loss = compute_loss(y, tx, w)
     return w, loss
